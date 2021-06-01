@@ -6,7 +6,7 @@ ARG a4c_ver=2.1.0
 ARG a4c_install_path=/opt
 ARG a4c_src_dir=alien4cloud
 ARG a4c_install_dir=a4c
-ARG a4c_deep_ver=${a4c_ver}-DEEP-1.3.0-SNAPSHOT
+ARG a4c_deep_ver=${a4c_ver}-DEEP-1.3.1
 ARG a4c_user=a4c
 ARG a4c_settings_manager_ver=2.1.0
 ARG tosca_normative_url=https://raw.githubusercontent.com/indigo-dc/orchestrator/master/src/main/resources/tosca-definitions/tosca-normative-types-1.0.0.yaml
@@ -18,6 +18,9 @@ ARG a4c_deep_branch=deep-dev
 ARG a4c_elasticsearch_mapping_branch=v1.7.8
 ARG templates_deep_oc_branch=stable/v4.0.1
 ARG a4c_sh_name=alien4cloud.sh
+# Flag to remove a4c src dirs 
+ARG rm_a4c_src=true
+
 
 ENV A4C_SH_NAME=${a4c_sh_name}
 ENV A4C_CERTS_ROOT_PATH=/certs
@@ -133,7 +136,7 @@ RUN \
     $HOME/..?* $HOME/.[!.]* $HOME/* \
     ${a4c_install_path}/TOSCA_normative_types_* \
     ${a4c_install_path}/indigo-dc-tosca-types \
-    ${a4c_install_path}/${a4c_src_dir} \
+  && if $rm_a4c_src ; then rm -rf ${a4c_install_path}/${a4c_src_dir}; fi \
   && apk del build-dependencies  \
   # Install the a4c runtime dependencies
   && apk --no-cache add openjdk8-jre-base bash su-exec nss
