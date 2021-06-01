@@ -16,6 +16,7 @@ Documentation version 3.0.1
 &nbsp;&nbsp;&nbsp;&nbsp;[Docker Container](#docker-container)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Parameters](#parameters)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Variables](#variables)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Alien4Cloud Libs](#alien4cloud-libs)
 &nbsp;&nbsp;&nbsp;&nbsp;[Settings Manager](#settings-manager)  
 &nbsp;&nbsp;&nbsp;&nbsp;[SSL](#ssl)  
 &nbsp;&nbsp;&nbsp;&nbsp;[Deployment](#deployment)  
@@ -96,6 +97,7 @@ We defined a number of constants to allow easy parametrisation of the container.
 * **a4c_deep_branch** -  The branch of the DEEP A4C fork used in this build
 * **templates_deep_oc_branch** - The branch for the templates used in the DEEP project
 * **a4c_sh_name** - The name of the script that contains the A4C init commands and the launch itself
+* **rm_a4c_src** - If true, remove the sources and build artifacts of alien4cloud during the image building  [true]
 
 #### Variables [&#8657;](#alien4cloud-deep-docker)
 
@@ -141,6 +143,16 @@ If the name of a variable is the same as the name of an argument, but with capit
 * **A4C_PEM_KEY_FILE** (RW) - the name of the PEM file with the key used to secure the A4C instance (just the name, without path)
  <!--**A4C_ORCHESTRATOR_PEM_CERT_FILE** (if desired), and **A4C_ORCHESTRATOR_PEM_KEY_FILE** (if desired) respectively-->
 * **A4C_JAVA_XMX_MEMO** (RW) - the maximum size of the Java heap memory allocated to the A4C process; it must respect the Java nomenclature see [[Res9]](#res9) [[<none>]]
+
+#### Alien4Cloud Libs [&#8657;](#alien4cloud-libs)
+
+If you want to keep the source code and the build artifacts of Alien4Cloud, you should set the flag **rm_a4c_src** to  __false__  using the  __--build-arg__  argument of  __docker build__  .
+
+Next you can start the newly built container with a mounted folder where you want to copy the libs to.
+
+e.g. ```docker run -it -e /tmp/a4c:/tmp/a4c --entrypoint bash <a4c image name>```
+
+The Alien4Cloud src is found at **${a4c_install_path}/${a4c_src_dir}**, with the two variables being the Docker args declared in the Dockerfile.
 
 ### Settings Manager [&#8657;](#alien4cloud-deep-docker)
 
